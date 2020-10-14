@@ -50,6 +50,8 @@ def testFindUnion(path):
     return przewodnikTurystycznyFindUnion(V,L) == expected
 
 """
+#TODO dokonczyc pozostale wersje algorytmow :)) 
+
 def toAdjList(V,L):
     print (L)
 
