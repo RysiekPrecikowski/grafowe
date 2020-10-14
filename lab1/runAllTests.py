@@ -1,4 +1,5 @@
 #napisała Sylwia :c
+#Stolen't https://github.com/sy1wi4/graph-algorithms-2020/blob/main/run.py
 import os
 import pathlib
  
