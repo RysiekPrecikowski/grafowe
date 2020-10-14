@@ -29,14 +29,13 @@ def union(x,y):
 def przewodnikTurystycznyFindUnion(V,L):
     L.sort( key = itemgetter(2), reverse= True)
 
-    for (x,y,c) in L:                       
-        print( "krawedz miedzy", x, "i", y,"o wadze", c )
+    # for (x,y,c) in L:                       
+    #     print( "krawedz miedzy", x, "i", y,"o wadze", c )
 
 
 
     sets = [node(i) for i in range(V+1)]
     
-
 
     for edge in L:
         union(sets[edge[0]],sets[edge[1]])
@@ -44,12 +43,13 @@ def przewodnikTurystycznyFindUnion(V,L):
             return edge[2]
 
 
-def testFindUnion():
+def testFindUnion(path):
 
-    V,L,expected = dimacs.loadWeightedGraph("g1")
+    V,L,expected = dimacs.loadWeightedGraph(path)
 
-    print(przewodnikTurystycznyFindUnion(V,L) == expected)
+    return przewodnikTurystycznyFindUnion(V,L) == expected
 
+"""
 def toAdjList(V,L):
     print (L)
 
@@ -91,6 +91,10 @@ def bfs(adj,s=1,t=2):
 testDFS()
 
 
+"""
 
 
 
+import runAllTests
+
+runAllTests.run(testFindUnion)
