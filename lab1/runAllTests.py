@@ -1,11 +1,10 @@
-
+#napisała Sylwia :c
 import os
 import pathlib
  
 
 
 def run(func, ext = ''):
-    # zmienia format ścieżki windowsowej ('\' -> '/')
     def fix(path):
         fixed = ''
 
@@ -18,11 +17,9 @@ def run(func, ext = ''):
         return fixed
 
         
-    # pathlib.Path(__file__).parent.absolute()  ->  ścieżka do katalogu zawierającego ten konkretny plik
 
     path = fix(str(pathlib.Path(__file__).parent.absolute()))
     
-    # os.listdir(path) -> zwraca listę zawierającą nazwy plików w katalogu z danej ścieżki
 
     path += "/tests/"
 
@@ -31,11 +28,8 @@ def run(func, ext = ''):
     passed = 0
     for file in os.listdir(path) :
 
-        # os.path.splitext(path)[1] zwraca rozszerzenie pliku danego ścieżką
-        # print(file, path)
         if os.path.splitext(path + file)[1] == ext :
 
-            # print(func(path + file),"\n")
             if func(path + file) is True:
                 print (file, "is ok")
                 passed += 1
