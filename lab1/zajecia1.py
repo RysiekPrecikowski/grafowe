@@ -52,6 +52,7 @@ def testFindUnion(path):
 """
 #TODO dokonczyc pozostale wersje algorytmow :)) 
 
+
 def toAdjList(V,L):
     print (L)
 
