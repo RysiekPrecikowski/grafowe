@@ -5,7 +5,7 @@ import pathlib
  
 
 
-def run(func, ext = ''):
+def run(func, directory = "/tests/", ext = ''):
     def fix(path):
         fixed = ''
 
@@ -22,7 +22,7 @@ def run(func, ext = ''):
     path = fix(str(pathlib.Path(__file__).parent.absolute()))
     
 
-    path += "/tests/"
+    path += directory
 
     failed = 0
     failedList = []
