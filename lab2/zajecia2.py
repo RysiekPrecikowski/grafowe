@@ -10,6 +10,7 @@ przy użyciu przeszukiwania metodą BFS (algorytm Edmondsa-Karpa)
 import dimacs 
 import queue
 from math import inf
+from pprint import pp, pprint
 
 
 class Edge:
@@ -38,10 +39,11 @@ class graph:
         for edge in edges:
             if self.matrix[edge[0]][edge[1]] is None:
                 self.matrix[edge[0]][edge[1]] = Edge(edge[0], edge[1], edge[2])
-                self.matrix[edge[1]][edge[0]] = Edge(edge[1], edge[0], edge[2])
+                self.matrix[edge[1]][edge[0]] = Edge(edge[1], edge[0], 0)
             else:
-                self.matrix[edge[0]][edge[1]].capacity -= edge[2]
-                self.matrix[edge[1]][edge[0]].capacity += edge[2]
+                #TODO chyba ze tylko dodac?
+                # self.matrix[edge[0]][edge[1]].cap -= edge[2]
+                self.matrix[edge[1]][edge[0]].cap += edge[2]
 
     
 
@@ -52,6 +54,8 @@ class graph:
                 flow = inf
 
                 while v is not self.start:
+                    # print("v:", v)
+                    # print(self.matrix[parent[v]][v].getRes())
                     flow = min(flow, self.matrix[parent[v]][v].getRes())
                     v = parent[v]
                 
@@ -68,12 +72,13 @@ class graph:
             
             while q.empty() is False:
                 u = q.get()
+                # print(q.qsize())
   
                 if u is self.end:      
                     return parent, getFlow()
                 
                 for v in range(self.n + 1):
-                    if visited[v] is False and self.matrix[u][v] is not None and self.matrix[u][v].getRes() != 0:
+                    if visited[v] is False and self.matrix[u][v] is not None and self.matrix[u][v].getRes() > 0:
 
                         visited[v] = True
                         parent[v] = u
@@ -84,33 +89,57 @@ class graph:
         def updateRes(flow, path):
             v = self.end
             while v is not self.start:
-                self.matrix[path[v]][v].flow -= flow
-                self.matrix[v][path[v]].flow += flow
+                self.matrix[path[v]][v].flow += flow
+                self.matrix[v][path[v]].flow -= flow
 
                 v = path[v]
         
 
         res = 0
-        print(findPath())
+        # print("path", findPath())
         
-        k = 100
+
         path, flow = findPath()
-        while path is not None and k > 0:
-            print(findPath())
+
+        while path is not None :
+            # print()
+            # print()
+            # print("path", findPath())
+            # print()
+
+            # pprint(self.matrix)
+            # print(res)
             res += flow
             updateRes(flow, path)
             path, flow = findPath()
 
 
-            k-=1
         
         print(res)
 
+        return res
 
-n, edges = dimacs.loadDirectedWeightedGraph("clique5")
-print(n, edges)
+
+
+def testFulkerson(path):
+    n, edges, solution = dimacs.loadDirectedWeightedGraph(path)
+    
+    g = graph(n,edges)
+
+    return g.FordFulkerson() == solution 
+
+
+
+n, edges, solution = dimacs.loadDirectedWeightedGraph("tests/flow/grid100x100")
+# print(n, edges)
 
 g = graph(n,edges)
-print(g.matrix)
+# pprint(g.matrix)
 
-g.FordFulkerson()
+# res = g.FordFulkerson()
+
+# print(solution is res)
+
+import runAllTests
+
+runAllTests.run(testFulkerson, directory = "/tests/flow/")
